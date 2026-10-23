@@ -1,0 +1,31 @@
+[workspace]
+resolver = "2"
+members = [".", "crates/krylov_ds", "crates/spectral_hypergraph", "crates/nbsc"]
+default-members = ["."]
+
+[package]
+name = "human_connectome_rnn"
+version = "0.3.0"
+edition = "2021"
+description = "Recurrent neural networks whose wiring, conduction delays and Dale's-law E/I structure are constrained by a human structural connectome, with Krylov-based stability control and spectral-hypergraph analysis"
+license = "MIT"
+
+[lib]
+name = "hcrnn"
+path = "src/lib.rs"
+
+[[bin]]
+name = "connectome_rnn"
+path = "src/bin/connectome_rnn.rs"
+
+[dependencies]
+krylov_ds = { path = "crates/krylov_ds" }
+spectral_hypergraph = { path = "crates/spectral_hypergraph" }
+nbsc = { path = "crates/nbsc", default-features = false, features = ["hypergraph"] }
+nalgebra = "0.32"
+
+[profile.release]
+opt-level = 3
+codegen-units = 1
+debug = false
+lto = true
